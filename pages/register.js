@@ -1,14 +1,22 @@
 import { useState } from "react";
-
+import axios from 'axios'
+import { toast } from 'react-toastify';
 
 const register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.table({ name, email, password });
+        let res = await axios.post(`${process.env.NEXT_PUBLIC_API}/register`,{name,email,password});
+        if(res.data.error){
+            toast.error(res.data.error)
+        }
+        if(res.data.data){
+            toast.success(res.data.data)
+        }
     };
 
     return (
