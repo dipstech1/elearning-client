@@ -10,7 +10,7 @@ const register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.table({ name, email, password });
-        let res = await axios.post(`${process.env.NEXT_PUBLIC_API}/register`,{name,email,password});
+        let res = await axios.post(`/api/register`,{name,email,password});
         if(res.data.error){
             toast.error(res.data.error)
         }
