@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState,useContext, useEffect } from "react";
 import axios from 'axios'
 import { toast } from 'react-toastify';
+
+import {Context} from '../context/userContext'
 
 const login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const {state,dispatch} = useContext(Context)
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.table({  email, password });
@@ -15,9 +17,18 @@ const login = () => {
             toast.error(res.data.error)
         }
         if(res.data.data){
-            toast.success("Login successfull")
+            toast.success("Login successfull");
+            dispatch({
+                type:"LOGIN",
+                payload:res.data.data
+            })
+          localStorage.setItem('user', JSON.stringify(res.data.data))
         }
     };
+
+    useEffect(()=>{
+        console.log("state ", state);
+    },[state])
 
     return (
         <>
